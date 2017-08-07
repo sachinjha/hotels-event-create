@@ -1,0 +1,11 @@
+{
+        "main": "eventhandler.js",
+        "dependencies": {
+    
+                "georedis": "*",
+                "request-promise-native": "*",
+                "request": "*",
+                "xlsx-rows": "*",
+                "dotenv": "*"
+        }
+}

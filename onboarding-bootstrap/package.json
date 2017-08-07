@@ -1,0 +1,14 @@
+{
+	
+    "main": "bootstrap.js",
+     "dependencies": {
+    
+                "georedis": "*",
+                "request-promise-native": "*",
+                "request": "*",
+                "xlsx-rows": "*",
+                "dotenv": "*"
+        }
+	
+	
+}

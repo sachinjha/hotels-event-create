@@ -1,0 +1,10 @@
+{
+  "docs": [
+    {
+      "_id": "_design/eventsFilter",
+      "filters": {
+        "eventsDoc": "function (doc, req) {  if (doc.Name) { return true} else { return false }  }"
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "hotesl-event-create",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install && mkdir dist && zip -r dist/bootstrap.zip actions/bootstrap.js data.xlsx node_modules && zip -r dist/eventhandler.zip actions/eventhandler.js node_modules ",
+    
+    "deploy": "npm run build && ./deploy.sh --uninstall && ./deploy.sh --install"
+    
+  },
+  "dependencies": {
+    
+    "georedis": "*",
+    "request-promise-native": "*",
+    "request": "*",
+    "xlsx-rows": "*",
+    "dotenv": "*"
+  },
+  "devDependencies": {
+    "async": "2.1.4",
+    "chai": "^3.5.0",
+    "cloudant": "1.6.2",
+    "coveralls": "^2.11.15",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-promise": "^3.3.2",
+    "eslint-plugin-react": "^6.6.0",
+    "istanbul": "^0.4.5",
+    "jsdoc": "^3.4.3",
+    "json-loader": "^0.5.4",
+    "minami": "^1.1.1",
+    "mocha": "^3.1.2",
+    "mocha-lcov-reporter": "^1.2.0",
+    "nock": "9.0.2",
+    "webpack": "^1.13.3"
+  },
+  "engines": {
+    "node": ">6.7.0"
+  }
+}
