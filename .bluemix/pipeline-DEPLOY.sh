@@ -16,11 +16,11 @@ wsk property set --apihost openwhisk.ng.bluemix.net --auth "${OPENWHISK_AUTH}"
 
 
 # create a REDIS  service
-cf create-service compose-for-redis Standard hotels-redis-db
+cf create-service compose-for-redis Standard redis
 # create a key for this service
-cf create-service-key hotels-redis-db for-openwhisk
+cf create-service-key redis for-openwhisk
 # retrieve the URL - it contains credentials + API URL
-export REDIS_URL=`cf service-key hotels-redis-db for-openwhisk | grep "\"uri\"" | awk -F '"' '{print $4}'`
+export REDIS_URL=`cf service-key redis for-openwhisk | grep "\"uri\"" | awk -F '"' '{print $4}'`
 
 # create a Cloudant service
 cf create-service cloudantNoSQLDB Lite hotels-events-db
