@@ -17,7 +17,7 @@ var Cloudant = require('cloudant');
 var redis , geo , mydb;
 var redisClient = require('redis');
 
-
+/*
 function mn(params) {
     var message  = { message: "default"}
     console.log ( params)
@@ -36,13 +36,15 @@ function mn(params) {
         return message ;
     }
 	
-}
+}*/
 
 exports.main = function (params) {
     var message  = { message: "default"}
     console.log ( "params is "+ JSON.stringify(params, null, "\t") )
     var url = params['services.cloudant.url']
     var dbName = params['services.cloudant.database']
+    console.log ("db url:" + url + " dbName:" + dbName) ;
+
     var cloudant = Cloudant({url:url, plugin:'retry', retryAttempts:5, retryTimeout:1000 , plugin:'promises'});
     mydb = cloudant.db.use(dbName);
     var redisUrl = params['services.redis.url']
@@ -158,7 +160,7 @@ function getDocument(id, cb){
 }
 
 
-mn({ "id": "ab51cae0-737d-11e7-aa0d-9d727b096885"})
+//mn({ "id": "ab51cae0-737d-11e7-aa0d-9d727b096885"})
 /*
 try{
     getDocument(id,createRedisEntry);

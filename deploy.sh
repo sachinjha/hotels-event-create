@@ -57,12 +57,19 @@ function install() {
     --kind nodejs:default\
     dist/bootstrap.zip
   
+  #create trigger
+  echo "creating trigger"
+  wsk trigger create cloudantChangesTrigger --feed /_/$PACKAGE_NAME/eventhandler\
+    --param dbname eventsdb\
+    --param filter "eventsFilter/eventsDoc" 
+
 }
 
 function uninstall() {
   echo "Removing actions..."
   wsk action delete $PACKAGE_NAME/eventhandler
   wsk action delete $PACKAGE_NAME/bootstrap
+  wsk trigger delete /_/cloudantChangesTrigger
   
   echo "Removing package..."
   wsk package delete $PACKAGE_NAME
@@ -79,7 +86,7 @@ function update() {
 
 function showenv() {
   echo "PACKAGE_NAME=$PACKAGE_NAME"
-  echo "REDIS_URL=$WEATHER_SERVICE"
+  echo "REDIS_URL=$REDIS_URL"
   echo "CLOUDANT_URL=$CLOUDANT_URL"
   echo "CLOUDANT_DATABASE=$CLOUDANT_DATABASE"
   echo "API_KEY=$API_KEY"
