@@ -30,5 +30,6 @@ cf create-service-key hotels-events-db for-openwhisk
 export CLOUDANT_URL=`cf service-key hotels-events-db for-openwhisk | grep \"url\" | awk -F '"' '{print $4}'`
 
 # Deploy the OpenWhisk triggers/actions/rules
+./deploy.sh --env
 ./deploy.sh --uninstall
 ./deploy.sh --install
