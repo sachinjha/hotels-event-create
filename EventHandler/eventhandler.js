@@ -76,11 +76,14 @@ function createRedisLocationEntry(doc){
      var location = {
         'id': doc.Payload.placeId,
         'displayname': doc.Payload.name,
-        'acname': doc.Payload.name,    
+        'acname': doc.Payload.name.toLowerCase(),    
         'fullname': doc.Payload.fullname,
         'icon': doc.Payload.icon ? doc.Payload.icon : '',
         'latitude': doc.Payload.coordinates.lat ,
-        'longitude': doc.Payload.coordinates.lng
+        'longitude': doc.Payload.coordinates.lng,
+        'city':doc.Payload.city,
+        'state':doc.Payload.state,
+        'country': doc.Payload.country 
     }
     
     locationname = location['acname']
@@ -110,10 +113,13 @@ function createRedisPropertyEntry(doc){
         'id': doc.Payload.placeid,
         'displayname': doc.Payload.name,
         'fullname': doc.Payload.fullname,
-        'acname': doc.Payload.name,    
+        'acname': doc.Payload.name.toLowerCase(),    
         'image': doc.Payload.icon ? doc.Payload.icon : '',
         'latitude': doc.Payload.coordinates.lat ,
-        'longitude': doc.Payload.coordinates.lng
+        'longitude': doc.Payload.coordinates.lng,
+        'city':doc.Payload.city,
+        'state':doc.Payload.state,
+        'country': doc.Payload.country 
     }
     
   
