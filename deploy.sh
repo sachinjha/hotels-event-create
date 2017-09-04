@@ -72,7 +72,7 @@ function uninstall() {
   wsk action delete $PACKAGE_NAME/eventhandler
   wsk action delete $PACKAGE_NAME/bootstrap
   wsk trigger delete /_/cloudantChangesTrigger
-  wsk rule delete eventhandler-eventsdb
+  wsk rule delete eventhandler-cloudantChangesTrigger
   
   echo "Removing package..."
   wsk package delete $PACKAGE_NAME
