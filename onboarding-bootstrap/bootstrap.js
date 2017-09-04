@@ -7,8 +7,8 @@ var API_KEY, API_HOST, API_SECRET
 exports.main = function (args){
 
    
-    var locationrows = xlsxRows( { file: path.join( __dirname, './data.xlsx') , sheetname: "locations"});
-    var hotelrows = xlsxRows( { file: path.join( __dirname, './data.xlsx'), sheetname: "hotels"});
+    var locationrows = xlsxRows( { file: path.join( __dirname, './datav3.xlsx') , sheetname: "locations"});
+    var hotelrows = xlsxRows( { file: path.join( __dirname, './datav3.xlsx'), sheetname: "hotels"});
     API_KEY = params['services.api.key']
     API_SECRET = params['services.api.secret']
     API_HOST = params['services.api.host']
