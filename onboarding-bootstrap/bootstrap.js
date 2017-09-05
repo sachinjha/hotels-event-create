@@ -21,6 +21,7 @@ exports.main = function (params){
         locations.forEach(function(location){
             console.log (   location);
         })
+         sleep(2000);
         return addProperties(hotelrows) ;
     })
     .then(function(properties){
@@ -46,8 +47,8 @@ function addLocations(rows){
             if ( index == 0 ){
                 // header
             }else{
-                if ( index % 8 == 0 ){
-                        sleep(1000);
+                if ( index % 6 == 0 ){
+                        sleep(2000);
                 }
                 promises.push (  addLocation(row) );
             }
@@ -99,8 +100,8 @@ function addProperties(rows){
     var index = 0 ;
     rows.forEach(function(row){
         if ( index > 0 ) {
-            if ( index % 8 == 0 ){
-                sleep(1000);
+            if ( index % 6 == 0 ){
+                sleep(2000);
             }
             promises.push(addProperty(row) );
         }
