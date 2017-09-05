@@ -4,7 +4,7 @@ var rpnative = require('request-promise-native');
 var path = require('path');
 var API_KEY, API_HOST, API_SECRET
 
-exports.main = function (args){
+exports.main = function (params){
 
    
     var locationrows = xlsxRows( { file: path.join( __dirname, './datav3.xlsx') , sheetname: "locations"});
