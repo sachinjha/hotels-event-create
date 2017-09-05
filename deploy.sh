@@ -59,7 +59,7 @@ function install() {
   
   #create trigger
   echo "creating trigger"
-  wsk trigger create cloudantChangesTrigger --feed /_/hotels-events-db_for-openwhisk/changes \
+  wsk trigger create cloudantChangesTrigger --feed /_/Bluemix_hotels-events-db_for-openwhisk/changes \
     --param dbname eventsdb\
     --param filter "eventsFilter/eventsDoc" 
 
