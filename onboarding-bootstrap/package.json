@@ -8,7 +8,7 @@
                 "request": "*",
                 "xlsx-rows": "*",
                 "dotenv": "*",
-                "sleep" : "*"
+                "system-sleep" : "*"
         }
 	
 	
