@@ -3,6 +3,7 @@ var xlsxRows = require('xlsx-rows');
 var rpnative = require('request-promise-native');
 var path = require('path');
 var API_KEY, API_HOST, API_SECRET
+var sleep  = require('sleep');
 
 exports.main = function (params){
 
@@ -45,6 +46,9 @@ function addLocations(rows){
             if ( index == 0 ){
                 // header
             }else{
+                if ( index % 8 == 0 ){
+                        sleep.sleep(1);
+                }
                 promises.push (  addLocation(row) );
             }
             index++;
@@ -95,6 +99,9 @@ function addProperties(rows){
     var index = 0 ;
     rows.forEach(function(row){
         if ( index > 0 ) {
+            if ( index % 8 == 0 ){
+                sleep.sleep(1);
+            }
             promises.push(addProperty(row) );
         }
         index ++ ;
