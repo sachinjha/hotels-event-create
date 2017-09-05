@@ -11,7 +11,7 @@ exports.main = function (params){
     var hotelrows = xlsxRows( { file: path.join( __dirname, './datav3.xlsx'), sheetname: "hotels"});
     API_KEY = params['services.api.key']
     API_SECRET = params['services.api.secret']
-    API_HOST = params['services.api.host']
+    API_HOST = params['services.api.URL']
 
     //console.log ( locationrows)
     return addLocations(locationrows)
