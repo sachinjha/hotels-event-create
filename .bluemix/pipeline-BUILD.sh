@@ -11,5 +11,6 @@ cd EventHandler
 npm install
 zip -r ../dist/eventhandler.zip *
 cd ../onboarding-bootstrap
+rm -rf node_modules
 npm install 
 zip -r ../dist/bootstrap.zip *  

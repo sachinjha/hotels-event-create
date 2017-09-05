@@ -76,11 +76,14 @@ function createRedisLocationEntry(doc){
      var location = {
         'id': doc.Payload.placeId,
         'displayname': doc.Payload.name,
-        'acname': doc.Payload.name,    
+        'acname': doc.Payload.name.toLowerCase(),    
         'fullname': doc.Payload.fullname,
         'icon': doc.Payload.icon ? doc.Payload.icon : '',
         'latitude': doc.Payload.coordinates.lat ,
-        'longitude': doc.Payload.coordinates.lng
+        'longitude': doc.Payload.coordinates.lng,
+        'city':doc.Payload.city,
+        'state':doc.Payload.state,
+        'country': doc.Payload.country 
     }
     
     locationname = location['acname']
@@ -101,6 +104,9 @@ function createRedisLocationEntry(doc){
     redis.rpush(locationkey, location['icon'])
     redis.rpush(locationkey, location['latitude'])
     redis.rpush(locationkey, location['longitude'])
+    redis.rpush(locationkey, location['city'])
+    redis.rpush(locationkey, location['state'])
+    redis.rpush(locationkey, location['country'])
    
 }
 
@@ -110,10 +116,13 @@ function createRedisPropertyEntry(doc){
         'id': doc.Payload.placeid,
         'displayname': doc.Payload.name,
         'fullname': doc.Payload.fullname,
-        'acname': doc.Payload.name,    
+        'acname': doc.Payload.name.toLowerCase(),    
         'image': doc.Payload.icon ? doc.Payload.icon : '',
         'latitude': doc.Payload.coordinates.lat ,
-        'longitude': doc.Payload.coordinates.lng
+        'longitude': doc.Payload.coordinates.lng,
+        'city':doc.Payload.city,
+        'state':doc.Payload.state,
+        'country': doc.Payload.country 
     }
     
   
@@ -129,6 +138,9 @@ function createRedisPropertyEntry(doc){
   redis.rpush(hotelkey, hotel['image'])
   redis.rpush(hotelkey, hotel['latitude'])
   redis.rpush(hotelkey, hotel['longitude'])  
+  redis.rpush(hotelkey, hotel['city'])
+  redis.rpush(hotelkey, hotel['state'])
+  redis.rpush(hotelkey, hotel['country'])
   
 
 }

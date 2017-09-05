@@ -59,10 +59,12 @@ function install() {
   
   #create trigger
   echo "creating trigger"
-  wsk trigger create cloudantChangesTrigger --feed /_/$PACKAGE_NAME/eventhandler\
+  wsk trigger create cloudantChangesTrigger --feed /_/Bluemix_hotels-events-db_for-openwhisk/changes \
     --param dbname eventsdb\
     --param filter "eventsFilter/eventsDoc" 
 
+  echo "creating rule"
+  wsk rule create eventhandler-cloudantChangesTrigger  cloudantChangesTrigger $PACKAGE_NAME/eventhandler
 }
 
 function uninstall() {
@@ -70,6 +72,7 @@ function uninstall() {
   wsk action delete $PACKAGE_NAME/eventhandler
   wsk action delete $PACKAGE_NAME/bootstrap
   wsk trigger delete /_/cloudantChangesTrigger
+  wsk rule delete eventhandler-cloudantChangesTrigger
   
   echo "Removing package..."
   wsk package delete $PACKAGE_NAME
