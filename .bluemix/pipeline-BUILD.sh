@@ -8,7 +8,7 @@
 #npm run build
 mkdir dist
 cd EventHandler
-npm install npm -g 
+npm install
 zip -r ../dist/eventhandler.zip *
 cd ../onboarding-bootstrap
 rm -rf node_modules
