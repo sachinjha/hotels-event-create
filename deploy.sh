@@ -89,7 +89,7 @@ function update() {
 
 function showenv() {
   echo "PACKAGE_NAME=$PACKAGE_NAME"
-  echo "REDIS_URL=redis://9.113.140.160:31000/0"
+  echo "REDIS_URL=$REDIS_URL"
   echo "CLOUDANT_URL=$CLOUDANT_URL"
   echo "CLOUDANT_DATABASE=$CLOUDANT_DATABASE"
   echo "API_KEY=$API_KEY"

@@ -26,8 +26,8 @@ cf create-service compose-for-redis Standard redis
 # create a key for this service
 cf create-service-key redis for-openwhisk
 # retrieve the URL - it contains credentials + API URL
-export REDIS_URL=`cf service-key redis for-openwhisk | grep "\"uri\"" | awk -F '"' '{print $4}'`
-
+#export REDIS_URL=`cf service-key redis for-openwhisk | grep "\"uri\"" | awk -F '"' '{print $4}'`
+export REDIS_URL="redis://9.113.140.160:31000/0"
 # create a Cloudant service
 cf create-service cloudantNoSQLDB Lite hotels-events-db
 # create a key for this service
