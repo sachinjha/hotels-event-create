@@ -91,7 +91,7 @@ function createRedisLocationEntry(doc){
             locationfragment = locationname.substring(0,i+1)
             redis.zadd('locationfragments', 0, locationfragment)
     }   
-    locationwithid = locationname + 'L-' + location['id']
+    locationwithid = locationname + '%L-' + location['id'] + '%'
     redis.zadd('locationfragments', 0, locationwithid)
     
     locationkey = 'L-' + location['id']
