@@ -122,7 +122,8 @@ function createRedisPropertyEntry(doc){
         'longitude': doc.Payload.coordinates.lng,
         'city':doc.Payload.city,
         'state':doc.Payload.state,
-        'country': doc.Payload.country 
+        'country': doc.Payload.country ,
+        'rating' : 3 
     }
     
   
@@ -137,6 +138,7 @@ function createRedisPropertyEntry(doc){
   redis.rpush(hotelkey, hotel['image'])
   redis.rpush(hotelkey, hotel['latitude'])
   redis.rpush(hotelkey, hotel['longitude'])  
+  redis.rpush(hotelkey, hotel['rating'])
   redis.rpush(hotelkey, hotel['city'])
   redis.rpush(hotelkey, hotel['state'])
   redis.rpush(hotelkey, hotel['country'])
