@@ -8,8 +8,8 @@ var sleep  = require('system-sleep');
 exports.main = function (params){
 
    
-    var locationrows = xlsxRows( { file: path.join( __dirname, './datav3.xlsx') , sheetname: "locations"});
-    var hotelrows = xlsxRows( { file: path.join( __dirname, './datav3.xlsx'), sheetname: "hotels"});
+    var locationrows = xlsxRows( { file: path.join( __dirname, './datav4.xlsx') , sheetname: "locations"});
+    var hotelrows = xlsxRows( { file: path.join( __dirname, './datav4.xlsx'), sheetname: "hotels"});
     API_KEY = params['services.api.key']
     API_SECRET = params['services.api.secret']
     API_HOST = params['services.api.URL']
