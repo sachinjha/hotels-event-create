@@ -66,8 +66,8 @@ function addLocation(row){
 
         var requestBody = { 
             Name: "LocationCreated",
-            Payload: { name: row[2] , fullname:row[1] , city: row[4], state: row[5] , country: row[6]  , coordinates: { lat: row[8] , lng: row[9] } , icon: row[7] , placeId: row[0]},
-            EventId : row[0]+":" + "ADD"
+            Payload: { autoId: row[0] , name: row[3] , fullname:row[2] , city: row[5], state: row[6] , country: row[7]  , coordinates: { lat: row[9] , lng: row[10] } , icon: row[8] , placeId: row[1]},
+            EventId : row[1]+":" + "ADD"
         }
         
 
@@ -115,8 +115,8 @@ function addProperty(row){
 
         var requestBody = { 
             Name: "PropertyCreated",
-            Payload: { name: row[2] , fullname:row[1] , area: row[4], city: row[5], state: row[6] , country: row[7]  , coordinates: { lat: row[9] , lng: row[10] } , icon: row[8] , placeid: row[0]},
-            EventId : row[0]+":" + "ADD"
+            Payload: { autoId: row[0] , name: row[3] , fullname:row[2] , area: row[5], city: row[6], state: row[7] , country: row[8]  , coordinates: { lat: row[10] , lng: row[11] } , icon: row[9] , placeid: row[1]},
+            EventId : row[1]+":" + "ADD"
         }
         
 

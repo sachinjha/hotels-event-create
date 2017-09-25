@@ -74,6 +74,7 @@ exports.main = function (params) {
 
 function createRedisLocationEntry(doc){
      var location = {
+        'autoId' : doc.Payload.autoId,
         'id': doc.Payload.placeId,
         'displayname': doc.Payload.name,
         'acname': doc.Payload.name.toLowerCase(),    
@@ -96,9 +97,8 @@ function createRedisLocationEntry(doc){
     
     locationkey = 'L-' + location['id']
     redis.del(locationkey)
-    var time = new Date().getTime();
-
-    redis.rpush(locationkey, time)
+    
+    redis.rpush(locationkey, location['autoId'])
     redis.rpush(locationkey, location['displayname'])
     redis.rpush(locationkey, location['acname'])
     redis.rpush(locationkey, location['icon'])
@@ -115,6 +115,7 @@ function createRedisLocationEntry(doc){
 function createRedisPropertyEntry(doc){
 
     var hotel = {
+        'autoId': doc.Payload.autoId ,
         'id': doc.Payload.placeid,
         'displayname': doc.Payload.name,
         'fullname': doc.Payload.fullname,
@@ -133,9 +134,8 @@ function createRedisPropertyEntry(doc){
   geo.addLocation(hotelkey,{ latitude : hotel['latitude'], longitude: hotel['longitude']})
   //re('geoadd', 'hotels', hotel['longitude'],  hotel['latitude'], hotelkey)
   redis.del(hotelkey)
-  var time = new Date().getTime();
-
-  redis.rpush(hotelkey, time)
+  
+  redis.rpush(hotelkey, hotel['autoId'])
   redis.rpush(hotelkey, hotel['displayname'])
   redis.rpush(hotelkey, hotel['acname'])
   redis.rpush(hotelkey, hotel['image'])
