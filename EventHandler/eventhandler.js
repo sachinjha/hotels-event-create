@@ -96,8 +96,9 @@ function createRedisLocationEntry(doc){
     
     locationkey = 'L-' + location['id']
     redis.del(locationkey)
-    
-    redis.rpush(locationkey, location['id'])
+    var time = new Date().getTime();
+
+    redis.rpush(locationkey, time)
     redis.rpush(locationkey, location['displayname'])
     redis.rpush(locationkey, location['acname'])
     redis.rpush(locationkey, location['icon'])
@@ -107,6 +108,7 @@ function createRedisLocationEntry(doc){
     redis.rpush(locationkey, location['state'])
     redis.rpush(locationkey, location['country'])
     redis.rpush(locationkey, location['fullname'])
+    redis.rpush(locationkey, location['id'])
    
 }
 
@@ -131,8 +133,9 @@ function createRedisPropertyEntry(doc){
   geo.addLocation(hotelkey,{ latitude : hotel['latitude'], longitude: hotel['longitude']})
   //re('geoadd', 'hotels', hotel['longitude'],  hotel['latitude'], hotelkey)
   redis.del(hotelkey)
+  var time = new Date().getTime();
 
-  redis.rpush(hotelkey, hotel['id'])
+  redis.rpush(hotelkey, time)
   redis.rpush(hotelkey, hotel['displayname'])
   redis.rpush(hotelkey, hotel['acname'])
   redis.rpush(hotelkey, hotel['image'])
@@ -143,6 +146,7 @@ function createRedisPropertyEntry(doc){
   redis.rpush(hotelkey, hotel['state'])
   redis.rpush(hotelkey, hotel['country'])
   redis.rpush(hotelkey, hotel['fullname'])
+  redis.rpush(hotelkey, hotel['id'])
   
 
 }
