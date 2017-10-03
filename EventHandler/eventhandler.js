@@ -102,21 +102,24 @@ function createRedisLocationEntry(doc, cb ){
         'state':doc.Payload.state,
         'country': doc.Payload.country 
     }
-    
+    console.log ( "step 1 of createRedisLocationEntry");
     locationname = location['acname']
     for ( var i =0 ; i<locationname.length ; i++){
             locationfragment = locationname.substring(0,i+1)
             redis.zadd('locationfragments', 0, locationfragment)
     }   
+    console.log ( "step 2 of createRedisLocationEntry");
     locationwithid = locationname + '%L-' + location['id'] + '%'
     redis.zadd('locationfragments', 0, locationwithid)
     
     locationkey = 'L-' + location['id']
     redis.del(locationkey, function(err,resp){
+        console.log ( "step 3 of createRedisLocationEntry");
         if (err){
             console.log (err)
             cb(err, null);
         }else {
+            console.log ( "step 4 of createRedisLocationEntry");
             redis.rpush(locationkey, location['autoId'],
                             location['displayname'],
                             location['acname'],
@@ -188,9 +191,11 @@ function createRedisEntry( doc){
     
 
     let message = 'Event ignored'
+    console.log ( "in createRedisEntry");
     if ( doc.Name == 'LocationCreated'){
+        console.log ( "doc name is LocationCreated");
         createRedisLocationEntry(doc, function(err, resp){
-            console.log ( "in createRedisLocationEntry");
+            console.log ( "in response of createRedisLocationEntry");
             if ( err){
                 message = JSON.stringify(err)
             }else {
