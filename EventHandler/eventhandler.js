@@ -72,7 +72,7 @@ exports.main = function (params) {
    });
 }
 
-function createRedisLocationEntry(doc){
+function createRedisLocationEntry(doc, cb ){
     let message = "";
      var location = {
         'autoId' : doc.Payload.autoId,
