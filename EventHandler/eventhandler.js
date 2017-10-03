@@ -19,7 +19,22 @@ var redisClient = require('redis');
 
 /*
 function mn(params) {
-    var message  = { message: "default"}
+    let message  = { message: "default"}
+
+
+
+    console.log ( "params is "+ JSON.stringify(params, null, "\t") )
+    let url = params['services.cloudant.url']
+    let dbName = params['services.cloudant.database']
+    console.log ("db url:" + url + " dbName:" + dbName) ;
+
+    let cloudant = Cloudant({url:url, plugin:'retry', retryAttempts:5, retryTimeout:1000 , plugin:'promises'});
+    mydb = cloudant.db.use(dbName);
+    let redisUrl = params['services.redis.url']
+    redis = redisClient.createClient(redisUrl)
+    geo = require('georedis').initialize(redis, { zset: "hotels"});
+
+
     console.log ( params)
     if ( params.id ) {
         getDocument(params.id, function(err, doc){
@@ -100,7 +115,7 @@ function createRedisLocationEntry(doc, cb ){
     redis.del(locationkey, function(err,resp){
         if (err){
             console.log (err)
-            return cb(err, null);
+            cb(err, null);
         }else {
             redis.rpush(locationkey, location['autoId'],
                             location['displayname'],
@@ -175,6 +190,7 @@ function createRedisEntry( doc){
     let message = 'Event ignored'
     if ( doc.Name == 'LocationCreated'){
         createRedisLocationEntry(doc, function(err, resp){
+            console.log ( "in createRedisLocationEntry");
             if ( err){
                 message = JSON.stringify(err)
             }else {
@@ -201,8 +217,14 @@ function getDocument(id, cb){
 
 }
 
+/*
+mn({ "id": "6c90e290-a83f-11e7-9e50-abbd340e779d" ,
+    "services.cloudant.url": "https://e8cfde78-640c-4072-9cad-ed9c582854af-bluemix:a388b27ddb5fb9ccd1d94b78285c11127b60dc6a1ac4544ce3fad830baf61189@e8cfde78-640c-4072-9cad-ed9c582854af-bluemix.cloudant.com",
+    "services.cloudant.database": "eventsdb",
+    "services.redis.url": "redis://169.51.13.228:31000"
 
-//mn({ "id": "ab51cae0-737d-11e7-aa0d-9d727b096885"})
+})
+*/
 /*
 try{
     getDocument(id,createRedisEntry);
