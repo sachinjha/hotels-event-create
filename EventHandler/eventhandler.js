@@ -17,7 +17,7 @@ var Cloudant = require('cloudant');
 var redis , geo , mydb;
 var redisClient = require('redis');
 
-/*
+
 function mn(params) {
     let message  = { message: "default"}
 
@@ -36,22 +36,28 @@ function mn(params) {
 
 
     console.log ( params)
-    if ( params.id ) {
-        getDocument(params.id, function(err, doc){
-            if ( !err){
-                var message = createRedisEntry( doc);
-                return message;
-            }else {
-                console.log ( err);
-                message = { message: err}
-                return message ;
-            }
-        })
-    }else {
-        return message ;
-    }
-	
-}*/
+     return new Promise( function(resolve, reject){
+
+   
+    
+        if ( params.id ) {
+            getDocument(params.id, function(err, doc){
+                if ( !err){
+                    var message = createRedisEntry( doc, function(err, message){
+                            console.log ("return message is " + JSON.stringify(message, null, "\t") )
+                            resolve( message) ;
+                    });
+                    
+                }else {
+                    console.log ("error occured:" +  JSON.stringify(err, null, "\t"));
+                    reject( { message: err} );
+                }
+            })
+        }else {
+            resolve( {message: "doc does not contain id"} ) ;
+        }
+   });
+}
 
 exports.main = function (params) {
     var message  = { message: "default"}
@@ -73,9 +79,11 @@ exports.main = function (params) {
         if ( params.id ) {
             getDocument(params.id, function(err, doc){
                 if ( !err){
-                    var message = createRedisEntry( doc);
-                    console.log ("return message is " + JSON.stringify(message, null, "\t") )
-                    resolve( message) ;
+                    var message = createRedisEntry( doc, function(err, message){
+                            console.log ("return message is " + JSON.stringify(message, null, "\t") )
+                            resolve({ message: message } ) ;
+                    });
+                    
                 }else {
                     console.log ("error occured:" +  JSON.stringify(err, null, "\t"));
                     reject( { message: err} );
@@ -87,7 +95,7 @@ exports.main = function (params) {
    });
 }
 
-function createRedisLocationEntry(doc, cb ){
+function createRedisLocationEntry(doc, cb1 ){
     let message = "";
      var location = {
         'autoId' : doc.Payload.autoId,
@@ -115,7 +123,7 @@ function createRedisLocationEntry(doc, cb ){
     locationkey = 'L-' + location['id']
     redis.del(locationkey, function(err,resp){
         if (err){
-            cb(err, null);
+            cb1(err, null);
         }else {
             redis.rpush(locationkey, location['autoId'],
                             location['displayname'],
@@ -130,10 +138,10 @@ function createRedisLocationEntry(doc, cb ){
                             location['id'] , 
                             function ( err, resp){
                                     if ( err){
-                                        cb (err, null);
+                                        cb1 (err, null);
                                     }else{
                                         message = "entry added successfully."
-                                        cb ( null, message);
+                                        cb1 ( null, message);
                                     }
                             }) ; 
    
@@ -182,7 +190,7 @@ function createRedisPropertyEntry(doc){
 
 }
 
-function createRedisEntry( doc){
+function createRedisEntry( doc, cb2){
     
 
     let message = 'Event ignored'
@@ -196,13 +204,15 @@ function createRedisEntry( doc){
             }else {
                  message =   'Location added : ' + doc.Payload.name 
             }
+            cb2 ( null,  message  )
         })       
        
     }else if (doc.Name == 'PropertyCreated'){
         createRedisPropertyEntry(doc)
         message =   'Property added : ' + doc.Payload.name 
+        cb2 (null,  message );  
     }
-    return { 'message': message }   
+     
 }
 
 function getDocument(id, cb){
@@ -217,14 +227,14 @@ function getDocument(id, cb){
 
 }
 
-/*
+
 mn({ "id": "6c90e290-a83f-11e7-9e50-abbd340e779d" ,
     "services.cloudant.url": "https://e8cfde78-640c-4072-9cad-ed9c582854af-bluemix:a388b27ddb5fb9ccd1d94b78285c11127b60dc6a1ac4544ce3fad830baf61189@e8cfde78-640c-4072-9cad-ed9c582854af-bluemix.cloudant.com",
     "services.cloudant.database": "eventsdb",
     "services.redis.url": "redis://169.51.13.228:31000"
 
 })
-*/
+
 /*
 try{
     getDocument(id,createRedisEntry);
