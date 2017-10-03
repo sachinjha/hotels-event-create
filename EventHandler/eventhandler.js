@@ -73,6 +73,7 @@ exports.main = function (params) {
 }
 
 function createRedisLocationEntry(doc){
+    let message = "";
      var location = {
         'autoId' : doc.Payload.autoId,
         'id': doc.Payload.placeId,
@@ -96,20 +97,37 @@ function createRedisLocationEntry(doc){
     redis.zadd('locationfragments', 0, locationwithid)
     
     locationkey = 'L-' + location['id']
-    redis.del(locationkey)
-    
-    redis.rpush(locationkey, location['autoId'])
-    redis.rpush(locationkey, location['displayname'])
-    redis.rpush(locationkey, location['acname'])
-    redis.rpush(locationkey, location['icon'])
-    redis.rpush(locationkey, location['latitude'])
-    redis.rpush(locationkey, location['longitude'])
-    redis.rpush(locationkey, location['city'])
-    redis.rpush(locationkey, location['state'])
-    redis.rpush(locationkey, location['country'])
-    redis.rpush(locationkey, location['fullname'])
-    redis.rpush(locationkey, location['id'])
+    redis.del(locationkey, function(err,resp){
+        if (err){
+            console.log (err)
+            return cb(err, null);
+        }else {
+            redis.rpush(locationkey, location['autoId'],
+                            location['displayname'],
+                            location['acname'],
+                            location['icon'],
+                            location['latitude'],
+                            location['longitude'],
+                            location['city'],
+                            location['state'],
+                            location['country'],
+                            location['fullname'],
+                            location['id'] , 
+                            function ( err, resp){
+                                    if ( err){
+                                        console.log ( err)
+                                        cb (err, null);
+                                    }else{
+                                        message = "entry added successfully."
+                                        console.log ( message)
+                                        cb ( null, message);
+                                    }
+                            }) ; 
    
+        }
+    })
+    
+    
 }
 
 function createRedisPropertyEntry(doc){
@@ -154,10 +172,16 @@ function createRedisPropertyEntry(doc){
 function createRedisEntry( doc){
     
 
-    var message = 'Event ignored'
+    let message = 'Event ignored'
     if ( doc.Name == 'LocationCreated'){
-        createRedisLocationEntry(doc)       
-        message =   'Location added : ' + doc.Payload.name 
+        createRedisLocationEntry(doc, function(err, resp){
+            if ( err){
+                message = JSON.stringify(err)
+            }else {
+                 message =   'Location added : ' + doc.Payload.name 
+            }
+        })       
+       
     }else if (doc.Name == 'PropertyCreated'){
         createRedisPropertyEntry(doc)
         message =   'Property added : ' + doc.Payload.name 
