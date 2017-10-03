@@ -17,7 +17,7 @@ var Cloudant = require('cloudant');
 var redis , geo , mydb;
 var redisClient = require('redis');
 
-
+/*
 function mn(params) {
     let message  = { message: "default"}
 
@@ -58,7 +58,7 @@ function mn(params) {
         }
    });
 }
-
+*/
 exports.main = function (params) {
     var message  = { message: "default"}
     console.log ( "params is "+ JSON.stringify(params, null, "\t") )
@@ -86,7 +86,7 @@ exports.main = function (params) {
                     
                 }else {
                     console.log ("error occured:" +  JSON.stringify(err, null, "\t"));
-                    reject( { message: err} );
+                    reject( { message: JSON.stringify(err) } );
                 }
             })
         }else {
@@ -172,20 +172,33 @@ function createRedisPropertyEntry(doc){
   hotelkey = 'H-' + hotel['id']
   geo.addLocation(hotelkey,{ latitude : hotel['latitude'], longitude: hotel['longitude']})
   //re('geoadd', 'hotels', hotel['longitude'],  hotel['latitude'], hotelkey)
-  redis.del(hotelkey)
+  redis.del(hotelkey, function ( err, resp){
+      if ( !err){
+          redis.rpush ( hotelkey, hotel['autoId'],
+                            hotel['displayname'],
+                            hotel['acname'],
+                            hotel['image'],
+                            hotel['latitude'],
+                            hotel['longitude'],  
+                            hotel['rating'],
+                            hotel['city'],
+                            hotel['state'],
+                            hotel['country'],
+                            hotel['fullname'],
+                            hotel['id'], function( err, resp){
+                                    if ( err){
+                                        
+                                        cb (err, null)
+                                    }else {
+                                         message = "entry added successfully."
+                                        cb ( null, message)
+                                    }
+                            });
+      }else {
+          cb ( err, null)
+      }
+  })
   
-  redis.rpush(hotelkey, hotel['autoId'])
-  redis.rpush(hotelkey, hotel['displayname'])
-  redis.rpush(hotelkey, hotel['acname'])
-  redis.rpush(hotelkey, hotel['image'])
-  redis.rpush(hotelkey, hotel['latitude'])
-  redis.rpush(hotelkey, hotel['longitude'])  
-  redis.rpush(hotelkey, hotel['rating'])
-  redis.rpush(hotelkey, hotel['city'])
-  redis.rpush(hotelkey, hotel['state'])
-  redis.rpush(hotelkey, hotel['country'])
-  redis.rpush(hotelkey, hotel['fullname'])
-  redis.rpush(hotelkey, hotel['id'])
   
 
 }
@@ -208,9 +221,18 @@ function createRedisEntry( doc, cb2){
         })       
        
     }else if (doc.Name == 'PropertyCreated'){
-        createRedisPropertyEntry(doc)
-        message =   'Property added : ' + doc.Payload.name 
-        cb2 (null,  message );  
+        createRedisPropertyEntry(doc, function (err, resp){
+            if ( err){
+                message = "there was an error "
+            }else {
+                 message =   'Property added : ' + doc.Payload.name 
+            }
+             cb2 (null,  message );  
+        })
+        
+       
+    }else {
+        cb2 ( null, message) ;
     }
      
 }
@@ -228,12 +250,12 @@ function getDocument(id, cb){
 }
 
 
-mn({ "id": "6c90e290-a83f-11e7-9e50-abbd340e779d" ,
+/*mn({ "id": "6c90e290-a83f-11e7-9e50-abbd340e779d" ,
     "services.cloudant.url": "https://e8cfde78-640c-4072-9cad-ed9c582854af-bluemix:a388b27ddb5fb9ccd1d94b78285c11127b60dc6a1ac4544ce3fad830baf61189@e8cfde78-640c-4072-9cad-ed9c582854af-bluemix.cloudant.com",
     "services.cloudant.database": "eventsdb",
     "services.redis.url": "redis://169.51.13.228:31000"
 
-})
+})*/
 
 /*
 try{
