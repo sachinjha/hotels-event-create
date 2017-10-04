@@ -151,7 +151,7 @@ function createRedisLocationEntry(doc, cb1 ){
     
 }
 
-function createRedisPropertyEntry(doc){
+function createRedisPropertyEntry(doc, cb){
 
     var hotel = {
         'autoId': doc.Payload.autoId ,
