@@ -8,7 +8,7 @@ fi
 # When pipeline runs the first time and API Key isn't populated.
 if [ -z ${API_KEY} ]; then
   echo Skipping OpenWhisk deployment as no API Key is configured
-  exit 0
+  exit 1
 fi
 
 # Get the OpenWhisk CLI
